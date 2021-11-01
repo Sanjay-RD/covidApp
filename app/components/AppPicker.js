@@ -12,13 +12,12 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useDispatch, useSelector } from "react-redux";
-import { listCountry } from "../redux/actions/covidActions";
+import { getCountryData, listCountry } from "../redux/actions/covidActions";
 
 const AppPicker = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [countryName, setCountryName] = useState();
-  const [countryCode, setCountryCode] = useState();
 
   const countryList = useSelector((state) => state.countryList);
   const { loading, countries } = countryList;
@@ -29,12 +28,14 @@ const AppPicker = () => {
 
   const handleSelectCountry = (item) => {
     setCountryName(item.country);
-    setCountryCode(item.countryInfo.iso3);
+    let countryCode = item.countryInfo.iso3;
+    dispatch(getCountryData(countryCode));
     setModalVisible(false);
   };
   const handleWorldwide = () => {
     setCountryName("Worldwide");
-    setCountryCode("all");
+    let countryCode = "worldwide";
+    dispatch(getCountryData(countryCode));
     setModalVisible(false);
   };
   return (
@@ -42,7 +43,7 @@ const AppPicker = () => {
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
         <View style={styles.container}>
           <Text style={styles.text}>
-            {countryName ? countryName : WorldWide}
+            {countryName ? countryName : "WorldWide"}
           </Text>
           <MaterialCommunityIcons name="chevron-down" size={24} color="black" />
         </View>

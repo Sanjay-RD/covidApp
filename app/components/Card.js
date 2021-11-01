@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import numeral from "numeral";
 
 const Card = ({ title, today, total, textColor, bgColor }) => {
   return (
@@ -19,10 +20,10 @@ const Card = ({ title, today, total, textColor, bgColor }) => {
           <Text style={{ color: textColor }}>{title}</Text>
           <View style={styles.subContainer}>
             <Text style={[styles.subTitle, { color: textColor }]}>
-              +{today} today
+              + {numeral(today).format("0.0a")} Today
             </Text>
             <Text style={[styles.subTitle, { color: textColor }]}>
-              +{total} total
+              + {numeral(total).format("0.0a")} Total
             </Text>
           </View>
         </View>
@@ -50,15 +51,15 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   subContainer: {
-    paddingLeft: 15,
+    paddingLeft: 8,
     paddingTop: 5,
   },
 });
 
 Card.defaultProps = {
   title: "cases",
-  today: "323",
-  total: "3224",
+  today: "000",
+  total: "000",
   textColor: "red",
   bgColor: "#FDE6EC",
 };
